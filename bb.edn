@@ -1,0 +1,14 @@
+{:min-bb-version
+ "0.7.8"
+
+ :tasks
+ {up               {:task (shell "docker-compose up -d")}
+  down             {:task (shell "docker-compose down")}
+  repl             {:task (clojure "-M:test:repl")}
+  lint             {:task (do
+                            (shell "cljstyle check src dev test")
+                            (shell "clj-kondo --lint src dev test"))}
+  lint:fix         {:task (shell "cljstyle fix src dev test")}
+  test             {:task (clojure "-M:test")}
+  test:unit        {:task (clojure "-M:test:test/unit")}
+  test:integration {:task (clojure "-M:test:test/integration")}}}
