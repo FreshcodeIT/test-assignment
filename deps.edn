@@ -1,0 +1,17 @@
+{:paths   ["src" "resources"]
+
+ :deps    {org.clojure/clojure {:mvn/version "1.11.1-rc1"}}
+
+ :aliases {:repl             {:extra-paths ["dev"]
+                              :extra-deps  {nrepl/nrepl {:mvn/version "0.9.0"}
+                                            hashp/hashp {:mvn/version "0.2.1"}}
+                              :main-opts   ["--main" "nrepl.cmdline" "--interactive"]}
+
+           :test             {:extra-paths ["test"]
+                              :extra-deps  {lambdaisland/kaocha           {:mvn/version "1.64.1010"}
+                                            lambdaisland/kaocha-cloverage {:mvn/version "1.0.75"}}
+                              :main-opts   ["--main" "kaocha.runner"]}
+
+           :test/unit        {:main-opts ["--main" "kaocha.runner" "--focus" "unit"]}
+
+           :test/integration {:main-opts ["--main" "kaocha.runner" "--focus" "integration"]}}}
