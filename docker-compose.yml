@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+
+  db:
+     image: postgres:13-alpine
+     container_name: "db"
+     restart: always
+     environment:
+       POSTGRES_USER: postgres
+       POSTGRES_PASSWORD: postgres
+       PGDATA: /var/lib/postgresql/data
+     ports:
+       - 5432:5432
+     volumes:
+       - ./db/data:/var/lib/postgresql/data
+       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
