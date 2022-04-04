@@ -1,0 +1,8 @@
+.clj-kondo/.cache
+.cpcache
+.idea
+coverage
+db/data
+target
+.nrepl-port
+*.iml
