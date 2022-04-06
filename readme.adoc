@@ -1,1 +1,103 @@
-= PfM test assignment
+= FreshCode test assignment (clojure)
+
+== Project description
+
+=== Starting
+=== Debugging
+=== Running tests
+
+== Prerequisites
+
+To get started with this project you will need to first install the following software (follow the links to get installation instruction for your operating system):
+
+* https://clojure.org/guides/getting_started#_clojure_installer_and_cli_tools[Clojure itself, window=read-later]
+* https://docs.docker.com/engine/install/#server[Docker, window=read-later]
+* https://docs.docker.com/compose/install[Docker Compose, window=read-later]
+* https://github.com/babashka/babashka#installation[Babashka, window=read-later]
+
+== Your assignment
+
+
+You need to implement a table manager functionality.
+Assume that your table manager have to deal solely with a Postgres database.
+
+You need implement a table manager capable of doing following:
+
+1. List all tables.
+2. Get table structure. (including column names, column data types, if column is nullable)
+3. Get table data.
+4. Check if table with specified name is defined.
+5. Check if table is empty.
+
+==== List all tables
+
+There should be a function that, given a table manager entity, lists all available tables or tables satisfying certain requirements.
+A table should implement ITable protocol (link to description).
+A filter may be supplied. Filter is a predicate that takes a table and returns `true` if it satisfies a condition.
+
+[source, clojure]
+----
+(list-tables table-manager)
+;; => [table-1 table-2 ...]
+
+(list-tables table-manager has-specific-column?)
+;; => [table-2 table-4]
+----
+
+==== Get table structure
+
+There should be a function that, given a table manager entity and a table name, gets the table strucrure (including column names, column structure).
+
+[source, clojure]
+----
+(table-structure table-manager "table-name")
+;; => {:column-names   ["col-1" "col-2" ...]
+       :column-structs {"col-1" {:sql-type  "varchar"
+                                 :nullable? false}
+                       ...}
+----
+
+==== Get table data
+There should be a function that, given a table manager entity and a table name, gets table.
+Table should implement ITable protocol (link to description).
+Function returns `nil` if there is no table with given name.
+A table may be represented as a hash map (or a custom data structure if you wish).
+
+[source, clojure]
+----
+(table-data table-manager table-id)
+;; => ^ITable table
+----
+
+==== If table is defined
+There should be a function that, given a table manager entity and a table name, returns `true` if the table is defined.
+
+[source, clojure]
+----
+(has-table? table-manager "table-name")
+;; => true
+----
+
+==== If table is empty
+There should be a function that, given a table manager entity and a table name, returns `true` if table is empty.
+
+[source, clojure]
+----
+(empty-table? table-manager "table-name")
+;; => false (if empty)
+----
+
+==== ITable protocol
+(make it optional)
+1. get table name.
+2. get table structure.
+3. run queries
+
+Get planet list
+Get people list
+Get people list by planet
+Get people's mass by planet
+
+(get-data table condition)
+
+(Get more examples, maybe from DVD Rental DB, show expected results)
