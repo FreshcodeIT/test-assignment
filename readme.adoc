@@ -1,12 +1,11 @@
 = FreshCode test assignment (clojure)
 
-== Project description
+== Description
 
-=== Starting
-=== Debugging
-=== Running tests
+This task should introduce you a design pattern from one of our projects and give you a chance to show off your design skills.
+Project is provided with a simple https://github.com/alexisrolland/star-wars-data[Star Wars data set, window=read-later] for a PostgreSQL database.
 
-== Prerequisites
+=== Prerequisites
 
 To get started with this project you will need to first install the following software (follow the links to get installation instruction for your operating system):
 
@@ -15,8 +14,31 @@ To get started with this project you will need to first install the following so
 * https://docs.docker.com/compose/install[Docker Compose, window=read-later]
 * https://github.com/babashka/babashka#installation[Babashka, window=read-later]
 
+=== Start Up
+To get started with the developement you should run this commands:
+
+[source, shell]
+----
+bb up # brings up database
+bb repl # starts project repl
+----
+=== Debugging
+
+For ease of debugging, the project contains https://github.com/weavejester/hashp[hashp, window=read-later] dependency, that is required in the `dev.user` namespace and is available in all namespaces after repl startup.
+
+=== Running test
+To run tests simply call this in a terminal:
+
+[source, shell]
+----
+bb test # run both unit and integration test
+bb test:unit # run unit tests only
+bb test:integration # run integration tests only
+----
+
 == Your assignment
 
+=== Table Manager
 
 You need to implement a table manager functionality.
 Assume that your table manager have to deal solely with a Postgres database.
@@ -28,20 +50,25 @@ You need implement a table manager capable of doing following:
 3. Get table data.
 4. Check if table with specified name is defined.
 5. Check if table is empty.
+6. Run query (if you are not using <<ITable Protocol, `ITable`>> protocol).
 
 ==== List all tables
 
 There should be a function that, given a table manager entity, lists all available tables or tables satisfying certain requirements.
-A table should implement ITable protocol (link to description).
+A table may be represented as a name string or as a data structure implementing <<ITable Protocol, `ITable`>> protocol.
 A filter may be supplied. Filter is a predicate that takes a table and returns `true` if it satisfies a condition.
 
 [source, clojure]
 ----
 (list-tables table-manager)
-;; => [table-1 table-2 ...]
+;; => ["table-1" "table-2" ...]
+;; or
+;; => [^ITable table-1 ^ITable table-2 ...]
 
 (list-tables table-manager has-specific-column?)
-;; => [table-2 table-4]
+;; => ["table-2" "table-4"]
+;; or
+;; => [^ITable table-2 ^ITable table-4]
 ----
 
 ==== Get table structure
@@ -58,18 +85,21 @@ There should be a function that, given a table manager entity and a table name, 
 ----
 
 ==== Get table data
+
 There should be a function that, given a table manager entity and a table name, gets table.
-Table should implement ITable protocol (link to description).
+A table may be represented as a collection of hash maps or as a data structure implementing <<ITable Protocol, `ITable`>> protocol.
 Function returns `nil` if there is no table with given name.
-A table may be represented as a hash map (or a custom data structure if you wish).
 
 [source, clojure]
 ----
 (table-data table-manager table-id)
-;; => ^ITable table
+;; => [{"col-1" value-1 "col-2" value-2 ...} ...]
+;;
+;; => or ^ITable table
 ----
 
 ==== If table is defined
+
 There should be a function that, given a table manager entity and a table name, returns `true` if the table is defined.
 
 [source, clojure]
@@ -79,25 +109,40 @@ There should be a function that, given a table manager entity and a table name, 
 ----
 
 ==== If table is empty
+
 There should be a function that, given a table manager entity and a table name, returns `true` if table is empty.
 
 [source, clojure]
 ----
 (empty-table? table-manager "table-name")
-;; => false (if empty)
+;; => true (if empty)
 ----
 
-==== ITable protocol
-(make it optional)
-1. get table name.
-2. get table structure.
-3. run queries
+==== Run query
 
-Get planet list
-Get people list
-Get people list by planet
-Get people's mass by planet
+If you are not using <<ITable Protocol, `ITable`>> protocol, there should be a function that, given a table manager and a query structure, should run a query against a database and return a result.
 
-(get-data table condition)
+[source, clojure]
+----
+(run-query table-manager ["select name from planet limit 10 order by name"])
+;; => ["Alderaan" "Aleen Minor" "Bespin" "Bestine IV" "Cato Neimoidia"]
+----
 
-(Get more examples, maybe from DVD Rental DB, show expected results)
+=== ITable protocol ===
+
+You cam implement the `ITable` protocol for your tables to make it responsible for building, running and caching queries.
+
+Protocol should have methods capable of
+1. getting table name.
+2. getting table structure.
+3. running and caching queries
+
+
+== Testing Assignment ==
+
+You should write test for all table manager methods and for the following queries against the Star Wars sample database:
+
+1. Get planet list.
+2. Get males list.
+3. Match all pairs from the same planet.
+4. Get people's mass by planet.
