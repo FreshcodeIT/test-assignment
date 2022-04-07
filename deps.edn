@@ -1,6 +1,8 @@
 {:paths   ["src" "resources"]
 
- :deps    {org.clojure/clojure {:mvn/version "1.11.1-rc1"}}
+ :deps    {org.clojure/clojure {:mvn/version "1.11.1"}
+           com.github.seancorfield/next.jdbc {:mvn/version "1.2.780"}
+           org.postgresql/postgresql {:mvn/version "42.3.3"}}
 
  :aliases {:repl             {:extra-paths ["dev"]
                               :extra-deps  {nrepl/nrepl {:mvn/version "0.9.0"}
