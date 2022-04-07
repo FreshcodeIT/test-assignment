@@ -1,9 +1,7 @@
 create database star_wars;
 \connect star_wars;
 
-create schema base;
-
-create table base.planet
+create table planet
 (
   id integer primary key,
   name text,
@@ -20,7 +18,7 @@ create table base.planet
   url text
 );
 
-create table base.people
+create table people
 (
   id integer primary key,
   name text,
@@ -31,13 +29,13 @@ create table base.people
   eye_color text,
   birth_year text,
   gender text,
-  planet_id integer not null references base.planet (id),
+  planet_id integer not null references planet (id),
   created_date timestamp,
   updated_date timestamp,
   url text
 );
 
-insert into base.planet(name, rotation_period, orbital_period, diameter, climate, gravity, terrain, surface_water, population,
+insert into planet(name, rotation_period, orbital_period, diameter, climate, gravity, terrain, surface_water, population,
                         created_date, updated_date, url, id)
 values ('Alderaan', '24', '364', '12500', 'temperate', '1 standard', 'grasslands, mountains', '40', '2000000000',
         '2014-12-10 11:35:48.479000Z', '2014-12-20 20:58:18.420000Z', 'https://swapi.co/api/planets/2/', 2),
@@ -163,7 +161,7 @@ values ('Alderaan', '24', '364', '12500', 'temperate', '1 standard', 'grasslands
         '2015-04-17 06:55:57.556551Z', 'https://swapi.co/api/planets/61/', 61);
 
 
-insert into base.people(name, height, mass, hair_color, skin_color, eye_color, birth_year, gender, planet_id, created_date,
+insert into people(name, height, mass, hair_color, skin_color, eye_color, birth_year, gender, planet_id, created_date,
                         updated_date, url, id)
 values ('Luke Skywalker', '172', '77', 'blond', 'fair', 'blue', '19BBY', 'male', 1, '2014-12-09 13:50:51.644000Z',
         '2014-12-20 21:17:56.891000Z', 'https://swapi.co/api/people/1/', 1),
