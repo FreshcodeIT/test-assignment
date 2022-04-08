@@ -1,7 +1,9 @@
 {:output       {:exclude-files
                 ["src/main/clojure/data_readers.clj" ".cljstyle"]}
 
- :config-paths []
+ :config-paths ["babashka/fs"
+                "rewrite-clj/rewrite-clj"
+                "com.github.seancorfield/next.jdbc"]
 
  :lint-as      {}
 
