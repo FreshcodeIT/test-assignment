@@ -3,37 +3,61 @@
 == Description
 
 This task should introduce you a design pattern from one of our projects and give you a chance to show off your design skills.
+
 Project is provided with a simple https://github.com/alexisrolland/star-wars-data[Star Wars data set, window=read-later] for a PostgreSQL database.
+There is an link:db/init.sql[SQL script] that will initialize the database the first time it is started.
+
+
+== Working with the project ==
 
 === Prerequisites
 
 To get started with this project you will need to first install the following software (follow the links to get installation instruction for your operating system):
 
-* https://clojure.org/guides/getting_started#_clojure_installer_and_cli_tools[Clojure itself, window=read-later]
-* https://docs.docker.com/engine/install/#server[Docker, window=read-later]
-* https://docs.docker.com/compose/install[Docker Compose, window=read-later]
-* https://github.com/babashka/babashka#installation[Babashka, window=read-later]
+* https://clojure.org/guides/getting_started#_clojure_installer_and_cli_tools[Clojure itself, window=_blank]
+* https://docs.docker.com/engine/install/#server[Docker^]
+* https://docs.docker.com/compose/install[Docker Compose^]
+* https://github.com/babashka/babashka#installation[Babashka^]
+* https://github.com/clj-kondo/clj-kondo/blob/master/doc/install.md#installation-script-macos-and-linux[clj-kondo^]
+* https://github.com/greglook/cljstyle#installation[cljstyle^]
 
-=== Start Up
-To get started with the developement you should run this commands:
+=== Start Up/Shut Down
+To get started with the development you should run this commands:
 
 [source, shell]
 ----
-bb up # brings up database
+bb up # starts the database
 bb repl # starts project repl
+----
+
+To shut down the database run this:
+
+[source, shell]
+----
+bb down
 ----
 === Debugging
 
 For ease of debugging, the project contains https://github.com/weavejester/hashp[hashp, window=read-later] dependency, that is required in the `dev.user` namespace and is available in all namespaces after repl startup.
 
-=== Running test
+=== Running tests
 To run tests simply call this in a terminal:
 
 [source, shell]
 ----
-bb test # run both unit and integration test
+bb test # run both unit and integration tests
 bb test:unit # run unit tests only
 bb test:integration # run integration tests only
+----
+
+=== Linting
+
+There are commands to find and fix lint errors:
+
+[source, shell]
+----
+bb lint # find problems
+bb lint:fix # fix them
 ----
 
 == Your assignment
@@ -41,9 +65,9 @@ bb test:integration # run integration tests only
 === Table Manager
 
 You need to implement a table manager functionality.
-Assume that your table manager have to deal solely with a Postgres database.
+Assume that your table manager has to deal with a Postgres database only.
 
-You need implement a table manager capable of doing following:
+Your table manager should be capable of doing the following:
 
 1. List all tables.
 2. Get table structure. (including column names, column data types, if column is nullable)
@@ -55,7 +79,7 @@ You need implement a table manager capable of doing following:
 ==== List all tables
 
 There should be a function that, given a table manager entity, lists all available tables or tables satisfying certain requirements.
-A table may be represented as a name string or as a data structure implementing <<ITable Protocol, `ITable`>> protocol.
+A table may be represented as a name string or as a data structure implementing <<itable-protocol,`ITable`>> protocol.
 A filter may be supplied. Filter is a predicate that takes a table and returns `true` if it satisfies a condition.
 
 [source, clojure]
@@ -79,15 +103,15 @@ There should be a function that, given a table manager entity and a table name, 
 ----
 (table-structure table-manager "table-name")
 ;; => {:column-names   ["col-1" "col-2" ...]
-       :column-structs {"col-1" {:sql-type  "varchar"
-                                 :nullable? false}
-                       ...}
+;;     :column-structs {"col-1" {:sql-type  "varchar"
+;;                               :nullable? false}
+;;                      ...}
 ----
 
 ==== Get table data
 
 There should be a function that, given a table manager entity and a table name, gets table.
-A table may be represented as a collection of hash maps or as a data structure implementing <<ITable Protocol, `ITable`>> protocol.
+A table may be represented as a collection of hash maps or as a data structure implementing <<itable-protocol,SQL script`ITable`>> protocol.
 Function returns `nil` if there is no table with given name.
 
 [source, clojure]
@@ -120,7 +144,7 @@ There should be a function that, given a table manager entity and a table name, 
 
 ==== Run query
 
-If you are not using <<ITable Protocol, `ITable`>> protocol, there should be a function that, given a table manager and a query structure, should run a query against a database and return a result.
+If you are not using <<itable-protocol,`ITable`>> protocol, there should be a function that, given a table manager and a query structure, should run a query against a database and return a result.
 
 [source, clojure]
 ----
@@ -138,11 +162,11 @@ Protocol should have methods capable of
 3. running and caching queries
 
 
-== Testing Assignment ==
+== Testing Your Assignment ==
 
 You should write test for all table manager methods and for the following queries against the Star Wars sample database:
 
-1. Get planet list.
+1. Get planets list.
 2. Get males list.
 3. Match all pairs from the same planet.
 4. Get people's mass by planet.
