@@ -7,3 +7,4 @@ target
 .nrepl-port
 *.iml
 **/*.~undo-tree~
+/.lsp/
