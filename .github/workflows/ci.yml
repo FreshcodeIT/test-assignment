@@ -1,4 +1,4 @@
-name: Assignment CI
+name: Assignment tests
 
 on: [push]
 
