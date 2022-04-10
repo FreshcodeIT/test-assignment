@@ -16,7 +16,7 @@ There is an link:db/init.sql[SQL script] that will initialize the database the f
 
 To get started with this project you will need to first install the following software (follow the links to get installation instruction for your operating system):
 
-* https://clojure.org/guides/getting_started#_clojure_installer_and_cli_tools[Clojure itself, window=_blank]
+* https://clojure.org/guides/getting_started#_clojure_installer_and_cli_tools[Clojure itself^]
 * https://docs.docker.com/engine/install/#server[Docker^]
 * https://docs.docker.com/compose/install[Docker Compose^]
 * https://github.com/babashka/babashka#installation[Babashka^]
@@ -24,7 +24,7 @@ To get started with this project you will need to first install the following so
 * https://github.com/greglook/cljstyle#installation[cljstyle^]
 
 === Start Up/Shut Down
-To get started with the development you should run this commands:
+To get started with the development run this commands in your terminal:
 
 [source, shell]
 ----
@@ -32,7 +32,7 @@ bb up # starts the database
 bb repl # starts project repl
 ----
 
-To shut down the database run this:
+To shut down the database:
 
 [source, shell]
 ----
@@ -43,7 +43,8 @@ bb down
 For ease of debugging, the project contains https://github.com/weavejester/hashp[hashp, window=read-later] dependency, that is required in the `dev.user` namespace and is available in all namespaces after repl startup.
 
 === Running tests
-To run tests simply call this in a terminal:
+
+There are commands for runnig tests:
 
 [source, shell]
 ----
@@ -67,7 +68,7 @@ bb lint:fix # fix them
 === Table Manager
 
 You need to implement a table manager functionality.
-Assume that your table manager has to deal with a Postgres database only.
+Assume that your table manager has to deal with a PostgreSQL database only.
 
 Your table manager should be capable of doing the following:
 
@@ -76,13 +77,13 @@ Your table manager should be capable of doing the following:
 3. Get table data.
 4. Check if table with specified name is defined.
 5. Check if table is empty.
-6. Run query (if you are not using <<ITable Protocol, `ITable`>> protocol).
+6. Run query (if you are not using <<itable-protocol,`ITable`>> protocol).
 
 ==== List all tables
 
 There should be a function that, given a table manager entity, lists all available tables or tables satisfying certain requirements.
-A table may be represented as a name string or as a data structure implementing <<itable-protocol,`ITable`>> protocol.
 A filter may be supplied. Filter is a predicate that takes a table and returns `true` if it satisfies a condition.
+A table may be represented as a name string or as a data structure implementing <<itable-protocol,`ITable`>> protocol.
 
 [source, clojure]
 ----
