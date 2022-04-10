@@ -1,5 +1,7 @@
 = FreshCode test assignment (clojure)
 
+image:https://github.com/FreshcodeIT/test-assignment/actions/workflows/ci.yml/badge.svg[link="https://github.com/FreshcodeIT/test-assignment/actions/workflows/ci.yml",title="Assignment tests"]
+
 == Description
 
 This task should introduce you a design pattern from one of our projects and give you a chance to show off your design skills.
